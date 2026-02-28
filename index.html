@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Assistant Pro - Votre Outil de Recherche de Mots-Clés</title>
+    <meta name="description" content="Application complète pour la recherche, l'analyse et l'optimisation de mots-clés SEO avec assistant IA">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-search-dollar"></i>
+                    <span>SEO Assistant Pro</span>
+                </div>
+                <nav class="nav">
+                    <a href="#recherche" class="nav-link active" data-section="recherche">
+                        <i class="fas fa-search"></i> Recherche
+                    </a>
+                    <a href="#tableaux" class="nav-link" data-section="tableaux">
+                        <i class="fas fa-table"></i> Tableaux
+                    </a>
+                    <a href="#analyse" class="nav-link" data-section="analyse">
+                        <i class="fas fa-chart-line"></i> Analyse
+                    </a>
+                    <a href="#generateur" class="nav-link" data-section="generateur">
+                        <i class="fas fa-magic"></i> Générateur IA
+                    </a>
+                    <a href="#guide" class="nav-link" data-section="guide">
+                        <i class="fas fa-book"></i> Guide
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Section Recherche de Mots-Clés -->
+        <section id="recherche" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h1><i class="fas fa-search"></i> Recherche de Mots-Clés</h1>
+                    <p>Découvrez les meilleurs mots-clés pour votre domaine avec l'aide de l'IA</p>
+                </div>
+
+                <div class="search-box">
+                    <div class="input-group">
+                        <input type="text" id="domainInput" placeholder="Ex: chaussures running, plombier Paris, recettes végétariennes..." class="input-main">
+                        <button id="searchBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Rechercher avec IA
+                        </button>
+                    </div>
+                    <div class="search-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeLongTail" checked>
+                            <span>Inclure longue traîne</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeQuestions" checked>
+                            <span>Inclure questions</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="includeLocal">
+                            <span>Recherche locale</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Résultats de Recherche -->
+                <div id="searchResults" class="results-container" style="display: none;">
+                    <div class="results-header">
+                        <h2>Résultats de la recherche</h2>
+                        <div class="results-actions">
+                            <button id="addToTableBtn" class="btn btn-secondary">
+                                <i class="fas fa-plus"></i> Ajouter au tableau
+                            </button>
+                            <button id="exportResultsBtn" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> Exporter
+                            </button>
+                        </div>
+                    </div>
+                    <div id="resultsGrid" class="results-grid"></div>
+                </div>
+
+                <!-- Suggestions IA -->
+                <div class="ai-suggestions">
+                    <h3><i class="fas fa-lightbulb"></i> Suggestions de l'IA</h3>
+                    <div id="aiSuggestions" class="suggestions-list">
+                        <div class="suggestion-item">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>Commencez par entrer votre domaine d'activité ci-dessus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Tableaux -->
+        <section id="tableaux" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1><i class="fas fa-table"></i> Mes Tableaux de Mots-Clés</h1>
+                    <p>Organisez et gérez vos mots-clés efficacement</p>
+                </div>
+
+                <div class="table-tabs">
+                    <button class="tab-btn active" data-table="keywords">
+                        <i class="fas fa-key"></i> Mots-Clés
+                    </button>
+                    <button class="tab-btn" data-table="content">
+                        <i class="fas fa-calendar-alt"></i> Calendrier Éditorial
+                    </button>
+                    <button class="tab-btn" data-table="tracking">
+                        <i class="fas fa-chart-line"></i> Suivi Positions
+                    </button>
+                    <button class="tab-btn" data-table="competitors">
+                        <i class="fas fa-users"></i> Concurrents
+                    </button>
+                </div>
+
+                <!-- Tableau Mots-Clés -->
+                <div id="keywordsTable" class="table-container active">
+                    <div class="table-toolbar">
+                        <button class="btn btn-primary" id="addKeywordBtn">
+                            <i class="fas fa-plus"></i> Ajouter
+                        </button>
+                        <button class="btn btn-secondary" id="exportToSheetsBtn">
+                            <i class="fab fa-google"></i> Exporter vers Sheets
+                        </button>
+                        <button class="btn btn-secondary" id="exportToCSVBtn">
+                            <i class="fas fa-file-csv"></i> Exporter CSV
+                        </button>
+                        <div class="search-filter">
+                            <input type="text" id="filterTable" placeholder="Filtrer..." class="input-small">
+                            <select id="filterIntent" class="select-small">
+                                <option value="">Toutes intentions</option>
+                                <option value="Informationnel">Informationnel</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Transactionnel">Transactionnel</option>
+                                <option value="Navigationnel">Navigationnel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="keywordsTableData" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAll"></th>
+                                    <th>Mot-Clé</th>
+                                    <th>Volume</th>
+                                    <th>Difficulté</th>
+                                    <th>Intention</th>
+                                    <th>Type</th>
+                                    <th>Priorité</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keywordsTableBody">
+                                <!-- Les données seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tableau Calendrier Éditorial -->
+                <div id="contentTable" class="table-container">
+                    <div class="table-toolbar">
+                        <button class="btn btn-primary" id="addContentBtn">
+                            <i class="fas fa-plus"></i> Nouveau Contenu
+                        </button>
+                        <button class="btn btn-secondary" id="exportContentBtn">
+                            <i class="fab fa-google"></i> Exporter vers Sheets
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="contentTableData" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Titre</th>
+                                    <th>Mot-Clé Principal</th>
+                                    <th>Type</th>
+                                    <th>Statut</th>
+                                    <th>Rédacteur</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contentTableBody">
+                                <!-- Les données seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tableau Suivi Positions -->
+                <div id="trackingTable" class="table-container">
+                    <div class="table-toolbar">
+                        <button class="btn btn-primary" id="addTrackingBtn">
+                            <i class="fas fa-plus"></i> Ajouter Suivi
+                        </button>
+                        <button class="btn btn-secondary" id="refreshPositionsBtn">
+                            <i class="fas fa-sync"></i> Actualiser
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="trackingTableData" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mot-Clé</th>
+                                    <th>URL</th>
+                                    <th>Position Actuelle</th>
+                                    <th>Position Précédente</th>
+                                    <th>Evolution</th>
+                                    <th>Dernière Mise à Jour</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trackingTableBody">
+                                <!-- Les données seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tableau Concurrents -->
+                <div id="competitorsTable" class="table-container">
+                    <div class="table-toolbar">
+                        <button class="btn btn-primary" id="addCompetitorBtn">
+                            <i class="fas fa-plus"></i> Ajouter Concurrent
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="competitorsTableData" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Concurrent</th>
+                                    <th>URL</th>
+                                    <th>Mots-Clés Ciblés</th>
+                                    <th>Points Forts</th>
+                                    <th>Opportunités</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="competitorsTableBody">
+                                <!-- Les données seront ajoutées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Analyse de Page -->
+        <section id="analyse" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1><i class="fas fa-chart-line"></i> Analyseur de Page SEO</h1>
+                    <p>Vérifiez l'optimisation SEO de vos pages</p>
+                </div>
+
+                <div class="analyze-box">
+                    <div class="input-group">
+                        <input type="url" id="pageUrlInput" placeholder="Entrez l'URL de votre page..." class="input-main">
+                        <button id="analyzeBtn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Analyser
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Résultats d'Analyse -->
+                <div id="analysisResults" class="analysis-container" style="display: none;">
+                    <div class="score-card">
+                        <div class="score-circle" id="seoScore">
+                            <span class="score-value">0</span>
+                            <span class="score-label">/100</span>
+                        </div>
+                        <h3>Score SEO Global</h3>
+                    </div>
+
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-tag"></i>
+                                <h3>Balises Title & Meta</h3>
+                            </div>
+                            <div id="titleMetaAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-heading"></i>
+                                <h3>Structure des Titres</h3>
+                            </div>
+                            <div id="headingsAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-link"></i>
+                                <h3>Liens Internes/Externes</h3>
+                            </div>
+                            <div id="linksAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-image"></i>
+                                <h3>Images & Alt Text</h3>
+                            </div>
+                            <div id="imagesAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-file-alt"></i>
+                                <h3>Contenu</h3>
+                            </div>
+                            <div id="contentAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h3>Mobile & Performance</h3>
+                            </div>
+                            <div id="mobileAnalysis" class="card-content">
+                                <!-- Contenu dynamique -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3><i class="fas fa-lightbulb"></i> Recommandations IA</h3>
+                        <div id="aiRecommendations" class="recommendations-list">
+                            <!-- Contenu dynamique -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Générateur de Contenu -->
+        <section id="generateur" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1><i class="fas fa-magic"></i> Générateur de Contenu SEO</h1>
+                    <p>Créez du contenu optimisé avec l'aide de l'IA</p>
+                </div>
+
+                <div class="generator-grid">
+                    <div class="generator-card">
+                        <h3><i class="fas fa-heading"></i> Générateur de Titres</h3>
+                        <input type="text" id="titleKeyword" placeholder="Mot-clé principal..." class="input-main">
+                        <button id="generateTitlesBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Générer des titres
+                        </button>
+                        <div id="titlesOutput" class="output-box"></div>
+                    </div>
+
+                    <div class="generator-card">
+                        <h3><i class="fas fa-paragraph"></i> Générateur de Meta Description</h3>
+                        <input type="text" id="metaKeyword" placeholder="Mot-clé principal..." class="input-main">
+                        <textarea id="metaContext" placeholder="Contexte de la page..." class="textarea"></textarea>
+                        <button id="generateMetaBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Générer
+                        </button>
+                        <div id="metaOutput" class="output-box"></div>
+                    </div>
+
+                    <div class="generator-card">
+                        <h3><i class="fas fa-list"></i> Plan d'Article</h3>
+                        <input type="text" id="articleKeyword" placeholder="Sujet de l'article..." class="input-main">
+                        <select id="articleLength" class="select-main">
+                            <option value="court">Court (500-800 mots)</option>
+                            <option value="moyen" selected>Moyen (800-1500 mots)</option>
+                            <option value="long">Long (1500-3000 mots)</option>
+                        </select>
+                        <button id="generateOutlineBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Créer le plan
+                        </button>
+                        <div id="outlineOutput" class="output-box"></div>
+                    </div>
+
+                    <div class="generator-card">
+                        <h3><i class="fas fa-question"></i> Questions FAQ</h3>
+                        <input type="text" id="faqKeyword" placeholder="Thématique..." class="input-main">
+                        <button id="generateFAQBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Générer FAQ
+                        </button>
+                        <div id="faqOutput" class="output-box"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Guide -->
+        <section id="guide" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1><i class="fas fa-book"></i> Guide d'Utilisation</h1>
+                    <p>Apprenez à utiliser les mots-clés efficacement</p>
+                </div>
+
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Où placer vos mots-clés ?</h3>
+                        <ul class="guide-list">
+                            <li><strong>Title (Balise title) :</strong> Le mot-clé principal au début (60 caractères max)</li>
+                            <li><strong>H1 :</strong> Un seul par page avec le mot-clé principal</li>
+                            <li><strong>URL :</strong> Courte et descriptive avec le mot-clé</li>
+                            <li><strong>Meta Description :</strong> Engageante avec le mot-clé (150-160 caractères)</li>
+                            <li><strong>100 premiers mots :</strong> Incluez le mot-clé naturellement</li>
+                            <li><strong>H2-H3 :</strong> Variations et mots-clés secondaires</li>
+                            <li><strong>Alt text des images :</strong> Description avec mot-clé</li>
+                            <li><strong>Liens internes :</strong> Ancres descriptives</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Types de Mots-Clés</h3>
+                        <div class="keyword-types">
+                            <div class="type-item">
+                                <span class="badge badge-short">Courte traîne</span>
+                                <p>1-2 mots | Volume élevé | Concurrence forte</p>
+                                <p class="example">Ex: "chaussures"</p>
+                            </div>
+                            <div class="type-item">
+                                <span class="badge badge-medium">Moyenne traîne</span>
+                                <p>2-3 mots | Volume moyen | Concurrence moyenne</p>
+                                <p class="example">Ex: "chaussures de sport"</p>
+                            </div>
+                            <div class="type-item">
+                                <span class="badge badge-long">Longue traîne</span>
+                                <p>4+ mots | Volume faible | Conversion élevée</p>
+                                <p class="example">Ex: "chaussures de sport femme taille 38"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Intentions de Recherche</h3>
+                        <div class="intent-grid">
+                            <div class="intent-item">
+                                <i class="fas fa-info-circle"></i>
+                                <h4>Informationnel</h4>
+                                <p>Apprendre, comprendre</p>
+                                <p class="example">"comment faire du SEO"</p>
+                            </div>
+                            <div class="intent-item">
+                                <i class="fas fa-compass"></i>
+                                <h4>Navigationnel</h4>
+                                <p>Trouver un site précis</p>
+                                <p class="example">"google analytics connexion"</p>
+                            </div>
+                            <div class="intent-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h4>Commercial</h4>
+                                <p>Comparer des options</p>
+                                <p class="example">"meilleur outil SEO 2026"</p>
+                            </div>
+                            <div class="intent-item">
+                                <i class="fas fa-credit-card"></i>
+                                <h4>Transactionnel</h4>
+                                <p>Acheter, convertir</p>
+                                <p class="example">"acheter chaussures running"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Outils Gratuits Recommandés</h3>
+                        <ul class="tools-list">
+                            <li>
+                                <i class="fab fa-google"></i>
+                                <div>
+                                    <strong>Google Keyword Planner</strong>
+                                    <p>Volumes de recherche et suggestions</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-search"></i>
+                                <div>
+                                    <strong>Google Search Console</strong>
+                                    <p>Mots-clés actuels et performances</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-question-circle"></i>
+                                <div>
+                                    <strong>Answer The Public</strong>
+                                    <p>Questions et suggestions visuelles</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <strong>Ubersuggest</strong>
+                                    <p>Analyse concurrentielle gratuite</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-card full-width">
+                        <div class="guide-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Plan d'Action 30 Jours</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker">1</div>
+                                <div class="timeline-content">
+                                    <h4>Semaine 1 : Recherche</h4>
+                                    <ul>
+                                        <li>Identifier 20-30 mots-clés pertinents</li>
+                                        <li>Analyser l'intention de recherche</li>
+                                        <li>Créer vos tableaux de suivi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2</div>
+                                <div class="timeline-content">
+                                    <h4>Semaine 2 : Optimisation</h4>
+                                    <ul>
+                                        <li>Optimiser les pages principales</li>
+                                        <li>Vérifier Title, H1, Meta descriptions</li>
+                                        <li>Améliorer les URL et alt text</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">3</div>
+                                <div class="timeline-content">
+                                    <h4>Semaine 3 : Création</h4>
+                                    <ul>
+                                        <li>Publier 2-3 articles optimisés</li>
+                                        <li>Créer du contenu longue traîne</li>
+                                        <li>Ajouter des FAQ sur les pages</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">4</div>
+                                <div class="timeline-content">
+                                    <h4>Semaine 4 : Suivi</h4>
+                                    <ul>
+                                        <li>Analyser les performances</li>
+                                        <li>Ajuster la stratégie</li>
+                                        <li>Planifier le mois suivant</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Modal Ajouter Mot-Clé -->
+    <div id="addKeywordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ajouter un Mot-Clé</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addKeywordForm">
+                    <div class="form-group">
+                        <label>Mot-Clé *</label>
+                        <input type="text" id="keyword" required class="input-main">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Volume</label>
+                            <input type="number" id="volume" class="input-main">
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulté (0-100)</label>
+                            <input type="number" id="difficulty" min="0" max="100" class="input-main">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Intention</label>
+                            <select id="intention" class="select-main">
+                                <option value="Informationnel">Informationnel</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Transactionnel">Transactionnel</option>
+                                <option value="Navigationnel">Navigationnel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="type" class="select-main">
+                                <option value="Courte traîne">Courte traîne</option>
+                                <option value="Moyenne traîne">Moyenne traîne</option>
+                                <option value="Longue traîne">Longue traîne</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Priorité</label>
+                            <select id="priority" class="select-main">
+                                <option value="P1">P1 - Haute</option>
+                                <option value="P2">P2 - Moyenne</option>
+                                <option value="P3">P3 - Basse</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Statut</label>
+                            <select id="status" class="select-main">
+                                <option value="À faire">À faire</option>
+                                <option value="En cours">En cours</option>
+                                <option value="Terminé">Terminé</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary modal-close">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SEO Assistant Pro - Votre assistant intelligent pour le référencement naturel</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
